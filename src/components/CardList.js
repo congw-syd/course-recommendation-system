@@ -11,6 +11,7 @@ const CardList =({courses}) =>{
 					key={i} 
 					courseid={courses[i].courseid} 
 					name={courses[i].name}
+					//imgurl={courses[i].imgurl}
 				/>
 				);
 			})
