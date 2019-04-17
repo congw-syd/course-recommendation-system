@@ -1,7 +1,49 @@
 import React from 'react';
 
-const Register = ({onRouteChange}) => {
-	return(
+class Register extends React.Component {
+
+	constructor(props){
+		super(props);
+		this.state ={
+			Email: '',
+			Password: '',
+			name: ''
+		}
+	}
+	
+	onNameChange =(event) =>{
+		this.setState({name: event.target.value})
+	}
+
+	onEmailChange =(event) =>{
+		this.setState({email: event.target.value})
+	}
+
+	onPasswordChange =(event) =>{
+		this.setState({password: event.target.value})
+	}
+
+	onSubmitSignin =() =>{
+			fetch('http://localhost:3000/register', {
+				method: 'post',
+				headers: {'Content-Type': 'application/json'},
+				body: JSON.stringify({
+					email: this.state.email,
+					password: this.state.password,
+					name: this.state.name
+				})
+			})
+				.then(response => response.json())
+				.then(user => {
+					if(user){
+						this.props.loadUser(user)
+						this.props.onRouteChange('home');
+					}
+				})	
+		}
+
+	render(){
+		return(
 		<article className="br3 ba dark-gray b--black-10 mv4 mw6 shadow-5 center">
 			<main className="pa4 black-80">
 			  <div className="measure">
@@ -13,6 +55,7 @@ const Register = ({onRouteChange}) => {
 			        	type="text" 
 			        	name="name"  
 			        	id="name"
+			        	onChange ={this.onNameChange}
 			        />
 			      </div>
 			      <div className="mt3">
@@ -22,6 +65,7 @@ const Register = ({onRouteChange}) => {
 			        	type="email" 
 			        	name="email-address"  
 			        	id="email-address"
+			        	onChange ={this.onEmailChange}
 			        />
 			      </div>
 			      <div className="mv3">
@@ -31,12 +75,13 @@ const Register = ({onRouteChange}) => {
 			        	type="password" 
 			        	name="password"  
 			        	id="password"
+			        	onChange ={this.onPasswordChange}
 			        />
 			      </div>
 			    </fieldset>
 			    <div className="">
 			      <input 
-			      	onClick ={()=>onRouteChange('personinfo')}
+			      	onClick ={this.onSubmitSignin}
 			      	className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" 
 			      	type="submit" 
 			      	value="register"/>
@@ -45,7 +90,8 @@ const Register = ({onRouteChange}) => {
 			  </div>
 			</main>
 		</article>
-	);
+		);
+	}
 }
 
 export default Register;
