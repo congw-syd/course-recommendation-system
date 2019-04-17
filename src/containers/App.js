@@ -28,8 +28,21 @@ class App extends Component {
 		this.state={
 			courses: [],
 			searchfiled: '',
-			route: 'signin'
+			route: 'signin',
+			user: {
+				id: '',
+				name: '',
+				email: ''
+			}
 		}
+	}
+
+	loadUser = (data) => {
+		this.setState({data: {
+			id: data.id,
+			name: data.name,
+			email: data.email
+		}})
 	}
 
 	componentDidMount(){
@@ -71,7 +84,7 @@ class App extends Component {
 						<Signin onRouteChange={this.onRouteChange}/> 
 						: route === 'personinfo' ?
 							<PersonInfo onRouteChange={this.onRouteChange}/>
-							: <Register onRouteChange={this.onRouteChange}/>
+							: <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
 					)		
 				}
 				</div>
