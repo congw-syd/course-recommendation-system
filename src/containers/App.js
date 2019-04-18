@@ -8,6 +8,7 @@ import Signin from '../components/Signin';
 import Particles from 'react-particles-js';
 import Register from '../components/Register';
 import PersonInfo from '../components/PersonInfo';
+import Detail from '../components/Detail';
 import './App.css';
 
 const particlesOptions = {
@@ -63,28 +64,39 @@ class App extends Component {
 			return item.name.toLowerCase().includes(searchfiled.toLowerCase());
 		})
 
+		const courseHistory = courses.filter(item =>{
+			return item.name.toLowerCase().includes('web');
+		})
+
+		const recomms = courses.filter(item =>{
+			return item.name.toLowerCase().includes('data');
+		})
+
 		return !courses.length ?
 			<h1>Loading</h1> :
 			(
 				<div className = 'tc'>
 					<Particles className ='particles' params ={particlesOptions} />
-					<h1 className = 'f1'>Course Recommender</h1>
 					{ route === 'home' ?
 						<div>
-							<div>
+							<div id="nav">
 								<SearchBox searchChange = {this.onSearchChange}/>
 								<Navigation onRouteChange={this.onRouteChange}/>
 							</div>
-							<Scroll>
-								<CardList courses={filterCourse}/>
-							</Scroll>
+							<CardList onRouteChange={this.onRouteChange} courses={filterCourse}/>
 						</div>
 					: (
 						route === 'signin' ?
-						<Signin onRouteChange={this.onRouteChange}/> 
+						(	<div>
+								<h1 className = 'f1'>Course Recommender</h1>
+							 	<Signin onRouteChange={this.onRouteChange}/> 
+						 	</div>
+						)
 						: route === 'personinfo' ?
-							<PersonInfo onRouteChange={this.onRouteChange}/>
-							: <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
+							<PersonInfo courses={courseHistory} results={recomms} onRouteChange={this.onRouteChange}/>
+							: route === 'detail' ?
+								<Detail onRouteChange={this.onRouteChange}/>
+								: <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
 					)		
 				}
 				</div>

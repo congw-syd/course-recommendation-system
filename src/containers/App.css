@@ -8,9 +8,11 @@
 h1{
 	font-family: 'SEGA LOGO FONT';
 	font-weight: 100;
+	color: #0ccac4;	
+}
+
+p,h2{
 	color: #0ccac4;
-	
-	
 }
 
 .particles{
@@ -20,5 +22,10 @@ h1{
 	bottom: 0;
 	left: 0;
 	z-index: -1;
+}
+
+#nav{
+	display: flex;
+	justify-content: center;
 }
 

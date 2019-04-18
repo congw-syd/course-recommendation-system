@@ -1,36 +1,50 @@
 import React from 'react';
+import CardList from './CardList';
 
-const PersonInfo = ({onRouteChange}) =>{
+const PersonInfo = ({onRouteChange,courses,results}) =>{
 	return(
-		<article className="br3 ba dark-gray b--black-10 mv4 mw6 shadow-5 center">
-			<main className="pa4 black-80">
-			  <div className="measure">
-			    <fieldset id="regist_er" className="ba b--transparent ph0 mh0">
-			      <div className="mt3">
-			        <label className="db fw6 lh-copy f6" htmlFor="enrollcourse">Enrolled Course History</label>
+		<div>
+			<main 
+				className="pa2"
+				style = {{display: 'flex', justifyContent: 'center'}}
+			>
+			
 			        <input 
-			        	className="pa2 input-reset ba bg-transparent hover-bg-light-green hover-black w-100" 
+			        	className = 'pa3 ba b--green bg-lightest-blue input-reset w-30'
+			        	/*className="pa2  ba bg-transparent hover-bg-light-green hover-black " */
 			        	type="text" 
 			        	name="enrollcourse"  
 			        	id="enrollcourse"
+			        	placeholder='Please input (courseid,rating);'
 			        />
-			        <small id="name-desc" class="f6 black-60 db mb2">Please input in the format of (courseid,rating), seperate different courses using ';' </small>
-			      </div>
-			    </fieldset>
-			    <div className="">
+			        <small id="name-desc" class="f6 black-60 db mb2"></small>
+			      
 			      <input 
 			      	onClick ={()=>onRouteChange('home')}
-			      	className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" 
+			      	className="b ph1 pv1 input-reset ba bg-transparent grow pointer f6 dib" 
 			      	type="submit" 
 			      	value="Confirm"
-			      />
-			      <p onClick ={()=>onRouteChange('home')} className="f6 link dim black db pointer">Skip</p>
-			    </div>
+			      />&nbsp;&nbsp;&nbsp;&nbsp;
+			      <p 
+			      	onClick ={()=>onRouteChange('home')} 
+			      	className="dim pa3 pointer">Skip
+			      </p>
 			    
-			  </div>
-			</main>
-		</article>
+			  
+			</main>	
+			<h2>Enrolled Course History</h2>
+			<CardList courses={courses}/><br />
+			<h2>Recommendation for you</h2>
+			<CardList courses={results}/>
+		 </div>
 	);
 }
 
 export default PersonInfo;
+
+/*
+  <div className="measure center"> 
+			    <fieldset id="regist_er" className="ba b--transparent ph0 mh0">
+			      <div className="mt3"> </div>
+			    </fieldset></div>
+*/

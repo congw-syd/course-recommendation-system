@@ -44,52 +44,56 @@ class Register extends React.Component {
 
 	render(){
 		return(
-		<article className="br3 ba dark-gray b--black-10 mv4 mw6 shadow-5 center">
-			<main className="pa4 black-80">
-			  <div className="measure">
-			    <fieldset id="regist_er" className="ba b--transparent ph0 mh0">
-			      <div className="mt3">
-			        <label className="db fw6 lh-copy f6" htmlFor="name">Name</label>
-			        <input 
-			        	className="pa2 input-reset ba bg-transparent hover-bg-light-green hover-black w-100" 
-			        	type="text" 
-			        	name="name"  
-			        	id="name"
-			        	onChange ={this.onNameChange}
-			        />
-			      </div>
-			      <div className="mt3">
-			        <label className="db fw6 lh-copy f6" htmlFor="email-address">Email</label>
-			        <input 
-			        	className="pa2 input-reset ba bg-transparent hover-bg-light-green hover-black w-100" 
-			        	type="email" 
-			        	name="email-address"  
-			        	id="email-address"
-			        	onChange ={this.onEmailChange}
-			        />
-			      </div>
-			      <div className="mv3">
-			        <label className="db fw6 lh-copy f6" htmlFor="password">Password</label>
-			        <input 
-			        	className="b pa2 input-reset ba bg-transparent hover-bg-light-green hover-black w-100" 
-			        	type="password" 
-			        	name="password"  
-			        	id="password"
-			        	onChange ={this.onPasswordChange}
-			        />
-			      </div>
-			    </fieldset>
-			    <div className="">
-			      <input 
-			      	onClick ={this.onSubmitSignin}
-			      	className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" 
-			      	type="submit" 
-			      	value="register"/>
-			    </div>
-			    
-			  </div>
-			</main>
-		</article>
+			<div>
+				<h1 className = 'f1'>Course Recommender</h1>
+				<article className="br3 ba dark-gray b--black-10 mv4 mw6 shadow-5 center">
+					<main className="pa4 black-80">
+					  <div className="measure">
+					    <fieldset id="regist_er" className="ba b--transparent ph0 mh0">
+					      <div className="mt3">
+					        <label className="db fw6 lh-copy f6" htmlFor="name">Name</label>
+					        <input 
+					        	className="pa2 input-reset ba bg-transparent hover-bg-light-green hover-black w-100" 
+					        	type="text" 
+					        	name="name"  
+					        	id="name"
+					        	onChange ={this.onNameChange}
+					        />
+					      </div>
+					      <div className="mt3">
+					        <label className="db fw6 lh-copy f6" htmlFor="email-address">Email</label>
+					        <input 
+					        	className="pa2 input-reset ba bg-transparent hover-bg-light-green hover-black w-100" 
+					        	type="email" 
+					        	name="email-address"  
+					        	id="email-address"
+					        	onChange ={this.onEmailChange}
+					        />
+					      </div>
+					      <div className="mv3">
+					        <label className="db fw6 lh-copy f6" htmlFor="password">Password</label>
+					        <input 
+					        	className="b pa2 input-reset ba bg-transparent hover-bg-light-green hover-black w-100" 
+					        	type="password" 
+					        	name="password"  
+					        	id="password"
+					        	onChange ={this.onPasswordChange}
+					        />
+					      </div>
+					    </fieldset>
+					    <div>
+					      <input 
+					      	onClick ={this.onSubmitSignin}
+					      	className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" 
+					      	type="submit" 
+					      	value="register"/>
+					    </div>
+					    
+					  </div>
+					</main>
+				</article>
+			</div>
+		
 		);
 	}
 }

@@ -1,13 +1,14 @@
 import React from 'react';
 import Card from './Card';
 
-const CardList =({courses}) =>{
+const CardList =({courses, onRouteChange}) =>{
 	return(
-		<div>
+		<div >
 		{
 			courses.map((item,i)=>{
 			return (
 				<Card 
+					onRouteChange = {onRouteChange}
 					key={i} 
 					courseid={courses[i].courseid} 
 					name={courses[i].name}
@@ -21,3 +22,4 @@ const CardList =({courses}) =>{
 }
 
 export default CardList;
+
