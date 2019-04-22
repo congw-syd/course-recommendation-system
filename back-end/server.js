@@ -26,16 +26,24 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.get('/', (req, res) =>{
-	res.send(database.users);
+	db.select('*').from('courses')
+	.then(item => {
+			if(item.length){
+				res.json(item)
+			}else{
+				res.status(400).json('Not Found')
+			}
+	})
+	.catch( err => res.status(400).json('error getting courses'))
 })
 
 app.post('/signin', (req, res) =>{
-	db.select('email','password').from('users')
-	  .where('email', '=', req.body.email)
+	db.select('studentid','password').from('students')
+	  .where('studentid','=', req.body.studentid)
 	  .then(data => {
 	  	if(req.body.password === data[0].password){
-	  		return db.select('*').from('users')
-		  		  	 .where('email','=',req.body.email)
+	  		return db.select('*').from('students')
+		  		  	 .where('studentid','=', req.body.studentid)
 		  		     .then(user =>{
 		  		  	    res.json(user[0])
 		  		     })
@@ -48,10 +56,11 @@ app.post('/signin', (req, res) =>{
 })
 
 app.post('/register', (req, res) =>{
-	const {email, name, password} = req.body;
-	db('users')
+	const {studentid, email, name, password} = req.body;
+	db('students')
 		.returning('*')
 		.insert({
+		studentid: studentid,
 		name: name,
 		email: email,
 		password: password
@@ -62,17 +71,31 @@ app.post('/register', (req, res) =>{
 		.catch(err => res.status(400).json('unable to register'))
 })
 
-app.get('/profile/:userid', (req,res)=>{
-	const {userid} = req.params;
-	db.select('*').from('users').where({userid})
-		.then(user => {
-			if(user.length){
-				res.json(user[0])
+app.post('/addhistory', (req, res) =>{
+	const {studentid, courseid, rating} = req.body;
+	db('enrolhistory')
+		.returning('*')
+		.insert({
+		studentid: studentid,
+		courseid: courseid,
+		rating: rating
+		})
+		.then(record => {
+		res.json(record[0]);
+		})
+		.catch(err => res.status(400).json('unable to add history'))
+})
+
+app.get('/gethistory', (req,res)=>{
+	db.select('*').from('enrolhistory')
+	.then(item => {
+			if(item.length){
+				res.json(item)
 			}else{
 				res.status(400).json('Not Found')
 			}
-		})
-		.catch( err => res.status(400).json('error getting user'))
+	})
+	.catch( err => res.status(400).json('error getting history'))
 })
 
 
