@@ -9,6 +9,7 @@ import Particles from 'react-particles-js';
 import Register from '../components/Register';
 import PersonInfo from '../components/PersonInfo';
 import Detail from '../components/Detail';
+import AddHistory from '../components/AddHistory';
 import './App.css';
 
 const particlesOptions = {
@@ -28,26 +29,52 @@ class App extends Component {
 		super()
 		this.state={
 			courses: [],
+			enrolhistory:[],
 			searchfiled: '',
 			route: 'signin',
 			user: {
-				id: '',
+				studentid: '',
 				name: '',
 				email: ''
+			},
+			history: {
+				studentid: '',
+				courseid: '',
+				rating: ''
 			}
 		}
 	}
 
 	loadUser = (data) => {
-		this.setState({data: {
-			id: data.id,
+		this.setState({user: {
+			studentid: data.studentid,
 			name: data.name,
 			email: data.email
 		}})
 	}
 
+	loadHistory = (data) => {
+		this.setState({history: {
+			student: data.studentid,
+			courseid: data.courseid,
+			rating: data.rating
+		}})
+	}
+
 	componentDidMount(){
-		this.setState({courses: courses});
+		/*this.setState({courses: courses});*/
+		var that = this;
+		fetch('http://localhost:3000/')
+		.then(response => response.json())
+		.then(function(data){
+			that.setState({courses:data})
+		});
+		fetch('http://localhost:3000/gethistory')
+		.then(response => response.json())
+		.then(function(data){
+			that.setState({enrolhistory:data})
+		});
+
 	}
 
 	onSearchChange = (event) => {
@@ -59,22 +86,12 @@ class App extends Component {
 	}
 
 	render(){
-		const { courses, searchfiled, route } = this.state;
+		const { enrolhistory, courses, searchfiled, route } = this.state;
 		const filterCourse = courses.filter(item =>{
 			return item.name.toLowerCase().includes(searchfiled.toLowerCase());
-		})
+		});
 
-		const courseHistory = courses.filter(item =>{
-			return item.name.toLowerCase().includes('web');
-		})
-
-		const recomms = courses.filter(item =>{
-			return item.name.toLowerCase().includes('data');
-		})
-
-		return !courses.length ?
-			<h1>Loading</h1> :
-			(
+		return(
 				<div className = 'tc'>
 					<Particles className ='particles' params ={particlesOptions} />
 					{ route === 'home' ?
@@ -85,26 +102,25 @@ class App extends Component {
 							</div>
 							<CardList onRouteChange={this.onRouteChange} courses={filterCourse}/>
 						</div>
-					: (
+						: 
 						route === 'signin' ?
 						(	<div>
 								<h1 className = 'f1'>Course Recommender</h1>
-							 	<Signin onRouteChange={this.onRouteChange}/> 
+							 	<Signin loadUser={this.loadUser} loadHistory={this.loadHistory} onRouteChange={this.onRouteChange}/> 
 						 	</div>
 						)
-						: route === 'personinfo' ?
-							<PersonInfo courses={courseHistory} results={recomms} onRouteChange={this.onRouteChange}/>
-							: route === 'detail' ?
-								<Detail onRouteChange={this.onRouteChange}/>
-								: <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
-					)		
-				}
+						: route === 'register' ?
+						 	<Register loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
+							: route === 'personinfo' ?
+								/*<PersonInfo courses={courseHistory} results={recomms} onRouteChange={this.onRouteChange}/>*/
+								<PersonInfo sid={this.state.user.studentid} history={enrolhistory} onRouteChange={this.onRouteChange}/>
+								: route === 'addhistory' ?
+									 <AddHistory loadHistory={this.loadHistory} onRouteChange={this.onRouteChange}/>
+									: <Detail onRouteChange={this.onRouteChange}/>		
+					}
 				</div>
-			);
+		);
 	}
-}
-		
-	
-	
+}	
 
 export default App;
