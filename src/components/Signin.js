@@ -4,13 +4,13 @@ class Signin extends React.Component {
 	constructor(props){
 		super(props);
 		this.state ={
-			signInEmail: '',
+			signInSid: '',
 			signInPassword: ''
 		}
 	}
 
-	onEmailChange =(event) =>{
-		this.setState({signInEmail: event.target.value})
+	onSidChange =(event) =>{
+		this.setState({signInSid: event.target.value})
 	}
 
 	onPasswordChange =(event) =>{
@@ -22,13 +22,14 @@ class Signin extends React.Component {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify({
-				email: this.state.signInEmail,
+				studentid: this.state.signInSid,
 				password: this.state.signInPassword
 			})
 		})
 			.then(response => response.json())
 			.then(user => {
-				if(user.userid){
+				if(user.studentid){
+					this.props.loadUser(user)
 					this.props.onRouteChange('home');
 				}else{
 					alert('wrong credentials')
@@ -44,13 +45,13 @@ class Signin extends React.Component {
 				  <div className="measure">
 				    <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
 				      <div className="mt3">
-				        <label className="db fw6 lh-copy f6" htmlFor="email-address">Email</label>
+				        <label className="db fw6 lh-copy f6" htmlFor="email-address">StudentId</label>
 				        <input 
 				        	className="pa2 input-reset ba bg-transparent hover-bg-light-green hover-black w-100" 
-				        	type="email" 
-				        	name="email-address"  
-				        	id="email-address"
-				        	onChange ={this.onEmailChange}
+				        	type="text" 
+				        	name="sid"  
+				        	id="sid"
+				        	onChange ={this.onSidChange}
 				        />
 				      </div>
 				      <div className="mv3">

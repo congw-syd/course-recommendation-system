@@ -5,12 +5,16 @@ class Register extends React.Component {
 	constructor(props){
 		super(props);
 		this.state ={
+			studentid: '',
 			Email: '',
 			Password: '',
 			name: ''
 		}
 	}
 	
+	onIdChange =(event) =>{
+		this.setState({studentid: event.target.value})
+	}
 	onNameChange =(event) =>{
 		this.setState({name: event.target.value})
 	}
@@ -28,6 +32,7 @@ class Register extends React.Component {
 				method: 'post',
 				headers: {'Content-Type': 'application/json'},
 				body: JSON.stringify({
+					studentid: this.state.studentid,
 					email: this.state.email,
 					password: this.state.password,
 					name: this.state.name
@@ -50,6 +55,16 @@ class Register extends React.Component {
 					<main className="pa4 black-80">
 					  <div className="measure">
 					    <fieldset id="regist_er" className="ba b--transparent ph0 mh0">
+					     <div className="mt3">
+					        <label className="db fw6 lh-copy f6" htmlFor="name">StudentId</label>
+					        <input 
+					        	className="pa2 input-reset ba bg-transparent hover-bg-light-green hover-black w-100" 
+					        	type="text" 
+					        	name="sid"  
+					        	id="sid"
+					        	onChange ={this.onIdChange}
+					        />
+					      </div>
 					      <div className="mt3">
 					        <label className="db fw6 lh-copy f6" htmlFor="name">Name</label>
 					        <input 
