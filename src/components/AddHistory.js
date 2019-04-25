@@ -35,7 +35,6 @@ class AddHistory extends React.Component {
 				.then(response => response.json())
 				.then(item => {
 					if(item){
-						this.props.loadHistory(item)
 						this.props.onRouteChange('personinfo');
 					}
 				})	
