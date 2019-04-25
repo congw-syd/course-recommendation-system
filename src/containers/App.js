@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import CardList from '../components/CardList';
-import {courses} from '../data/courses';
 import SearchBox from '../components/SearchBox';
 import Scroll from '../components/Scroll';
 import Navigation from '../components/Navigation';
@@ -29,18 +28,13 @@ class App extends Component {
 		super()
 		this.state={
 			courses: [],
-			enrolhistory:[],
+			recombycou:[],
 			searchfiled: '',
 			route: 'signin',
 			user: {
 				studentid: '',
 				name: '',
 				email: ''
-			},
-			history: {
-				studentid: '',
-				courseid: '',
-				rating: ''
 			}
 		}
 	}
@@ -53,28 +47,18 @@ class App extends Component {
 		}})
 	}
 
-	loadHistory = (data) => {
-		this.setState({history: {
-			student: data.studentid,
-			courseid: data.courseid,
-			rating: data.rating
-		}})
-	}
-
 	componentDidMount(){
-		/*this.setState({courses: courses});*/
 		var that = this;
 		fetch('http://localhost:3000/')
 		.then(response => response.json())
 		.then(function(data){
 			that.setState({courses:data})
 		});
-		fetch('http://localhost:3000/gethistory')
+		fetch('http://localhost:3000/getrecombycou')
 		.then(response => response.json())
 		.then(function(data){
-			that.setState({enrolhistory:data})
+			that.setState({recombycou:data})
 		});
-
 	}
 
 	onSearchChange = (event) => {
@@ -86,7 +70,7 @@ class App extends Component {
 	}
 
 	render(){
-		const { enrolhistory, courses, searchfiled, route } = this.state;
+		const {courses, recombycou, searchfiled, route} = this.state;
 		const filterCourse = courses.filter(item =>{
 			return item.name.toLowerCase().includes(searchfiled.toLowerCase());
 		});
@@ -106,17 +90,25 @@ class App extends Component {
 						route === 'signin' ?
 						(	<div>
 								<h1 className = 'f1'>Course Recommender</h1>
-							 	<Signin loadUser={this.loadUser} loadHistory={this.loadHistory} onRouteChange={this.onRouteChange}/> 
+							 	<Signin loadUser={this.loadUser} onRouteChange={this.onRouteChange}/> 
 						 	</div>
 						)
 						: route === 'register' ?
 						 	<Register loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
 							: route === 'personinfo' ?
-								/*<PersonInfo courses={courseHistory} results={recomms} onRouteChange={this.onRouteChange}/>*/
-								<PersonInfo sid={this.state.user.studentid} history={enrolhistory} onRouteChange={this.onRouteChange}/>
+								(<div>
+										<Navigation onRouteChange={this.onRouteChange}/>
+										<PersonInfo sid={this.state.user.studentid} onRouteChange={this.onRouteChange}/>
+								</div>)
 								: route === 'addhistory' ?
-									 <AddHistory loadHistory={this.loadHistory} onRouteChange={this.onRouteChange}/>
-									: <Detail onRouteChange={this.onRouteChange}/>		
+									(<div>
+											<Navigation onRouteChange={this.onRouteChange}/>
+									 		<AddHistory onRouteChange={this.onRouteChange}/>
+									 </div>)
+									: (<div>
+											<Navigation onRouteChange={this.onRouteChange}/>
+											<Detail onRouteChange={this.onRouteChange}/>
+									  </div>)		
 					}
 				</div>
 		);
