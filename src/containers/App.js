@@ -84,7 +84,9 @@ class App extends Component {
 								<SearchBox searchChange = {this.onSearchChange}/>
 								<Navigation onRouteChange={this.onRouteChange}/>
 							</div>
-							<CardList onRouteChange={this.onRouteChange} courses={filterCourse}/>
+							<div>
+								<CardList onRouteChange={this.onRouteChange} courses={filterCourse}/>
+							</div>
 						</div>
 						: 
 						route === 'signin' ?
