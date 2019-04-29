@@ -40,7 +40,7 @@ class PersonInfo extends React.Component {
 				</div>
 				
 			<h2>Recommendation for you</h2>
-			<div className='white dib br3 pa3 ma2 grow bw2 shadow-5'> 
+			<div> 
 			{	
 				recom.map((data,j)=>{
 					if(data.studentid===sid)
