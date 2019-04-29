@@ -98,6 +98,29 @@ app.get('/gethistory', (req,res)=>{
 	.catch( err => res.status(400).json('error getting history'))
 })
 
+app.get('/getrecombystu', (req,res)=>{
+	db.select('*').from('recombystu')
+	.then(item => {
+			if(item.length){
+				res.json(item)
+			}else{
+				res.status(400).json('Not Found')
+			}
+	})
+	.catch( err => res.status(400).json('error getting recommendation'))
+})
+
+app.get('/getrecombycou', (req,res)=>{
+	db.select('*').from('recombycou')
+	.then(item => {
+			if(item.length){
+				res.json(item)
+			}else{
+				res.status(400).json('Not Found')
+			}
+	})
+	.catch( err => res.status(400).json('error getting history'))
+})
 
 
 app.listen(3000, () => {
